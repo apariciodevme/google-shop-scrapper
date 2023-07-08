@@ -42,7 +42,22 @@ const Header = () => {
 
       <div className="w-full md:max-w-2xl">
         {/*form*/}
-        <form action="">
+        <form
+          action={(formData) => {
+            const searchTerm = formData.get("searchTerm");
+
+            if (!formData.get("searchTerm")) return;
+
+            const params = new URLSearchParams();
+
+            if (pages) params.set("pages", pages.toString());
+            if (sortBy) params.set("sort_by", sortBy.toString());
+            if (minPrice) params.set("minPrice", minPrice.toString());
+            if (maxPrice) params.set("maxPrice", maxPrice.toString());
+
+            router.push(`/search/${searchTerm}?${params.toString()}`);
+          }}
+        >
           <div className="flex items-center w-full gap-2">
             <div className="flex items-center flex-1 px-6 py-4 space-x-2 bg-white border-0 rounded-full shadow-xl md:max-w-5xl">
               <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
@@ -59,11 +74,7 @@ const Header = () => {
             <SearchButton />
           </div>
 
-
-
           {/*Select our pages*/}
-
-
 
           <div className="grid items-center max-w-lg grid-cols-2 gap-2 p-4 mx-auto md:grid-cols-4 md:max-w-none">
             <SearchSelect
@@ -79,8 +90,10 @@ const Header = () => {
             </SearchSelect>
 
             <Select
-            onValueChange={(value) => setsortBy(value)}
-            className="min-w-4" placeholder="Sort by">
+              onValueChange={(value) => setsortBy(value)}
+              className="min-w-4"
+              placeholder="Sort by"
+            >
               {Object.entries(SORT_BY_MAP).map(([key, value]) => (
                 <SelectItem key={key} value={value}>
                   {value}
@@ -89,8 +102,10 @@ const Header = () => {
             </Select>
 
             <SearchSelect
-            onValueChange={(value) => setminPrice(value)}
-            placeholder="Min Price..." className="min-w-4">
+              onValueChange={(value) => setminPrice(value)}
+              placeholder="Min Price..."
+              className="min-w-4"
+            >
               {["", "100", "250", "500", "750", "900", "1000+"].map((_, i) => (
                 <SearchSelectItem key={i} value={_.toString()}>
                   {i === 0 ? "No Minimun" : `$${_.toString()}`}
@@ -99,8 +114,10 @@ const Header = () => {
             </SearchSelect>
 
             <SearchSelect
-            onValueChange={(value) => setmaxPrice(value)}
-            className="min-w-4 " placeholder="Max Price...">
+              onValueChange={(value) => setmaxPrice(value)}
+              className="min-w-4 "
+              placeholder="Max Price..."
+            >
               {["", "100", "250", "500", "750", "900", "1000+"].map((_, i) => (
                 <SearchSelectItem key={i} value={_.toString()}>
                   {i === 0 ? "No Maximun" : `$${_.toString()}`}
