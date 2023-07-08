@@ -106,7 +106,7 @@ const Header = () => {
               placeholder="Min Price..."
               className="min-w-4"
             >
-              {["", "100", "250", "500", "750", "900", "1000+"].map((_, i) => (
+              {["", "100", "250", "500", "750", "900", "1000"].map((_, i) => (
                 <SearchSelectItem key={i} value={_.toString()}>
                   {i === 0 ? "No Minimun" : `$${_.toString()}`}
                 </SearchSelectItem>
